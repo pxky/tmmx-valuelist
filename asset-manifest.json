@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/tmmx.trade/static/css/main.aa0259d1.css",
+    "main.js": "/tmmx.trade/static/js/main.6e532e8c.js",
+    "index.html": "/tmmx.trade/index.html",
+    "main.aa0259d1.css.map": "/tmmx.trade/static/css/main.aa0259d1.css.map",
+    "main.6e532e8c.js.map": "/tmmx.trade/static/js/main.6e532e8c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.aa0259d1.css",
+    "static/js/main.6e532e8c.js"
+  ]
+}
