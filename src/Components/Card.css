@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Comic+Neue:wght@400;700');
+
+:root {
+    --card-height: 180px;
+    --card-width: 300px;
+
+    --base-color: hsl(200, 10%, 30%);
+    --base-color2: hsl(100, 10%, 10%);
+
+    --card-back-color: hsl(0, 0%, 6.9%);
+    --card-back-color2: hsl(0, 0%, 15%);
+    --card-border-color: hsl(0, 0%, 69%);
+    --border-color: hsl(0, 0%, 0%);
+
+    --card-padding: 3px;
+}
+
+.value-card {
+    display: flex;
+    flex-direction: column; 
+    height: var(--card-height);
+    width: var(--card-width);
+    
+    background: radial-gradient(var(--card-back-color2), var(--card-back-color2), var(--card-back-color));
+    border: calc(var(--card-padding) + 1px) solid var(--card-border-color);
+    border-radius: calc(var(--card-padding) * 4);
+    box-sizing: border-box;
+    padding: calc(var(--card-padding) + 1px);
+    overflow: hidden;
+    margin: var(--card-padding)
+}
+
+.card-title, .card-image-frame, .card-stats {
+    box-sizing: border-box;
+    border-radius: calc(var(--card-padding) * 2);
+}
+
+.card-title, .card-image-frame {
+    border: calc(var(--card-padding) + 1px) solid var(--border-color);
+}
+
+.card-stats {
+    border: var(--card-padding) solid var(--border-color);
+}
+
+.card-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(var(--card-height) * 0.25 - var(--card-padding));
+    margin: 0px 0px var(--card-padding) 0px;
+    background: linear-gradient(175deg, var(--base-color), var(--base-color2));
+    font: 2em "Permanent Marker";
+    text-shadow: var(--card-padding) var(--card-padding) 2px black;
+}
+
+.card-main {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+}
+
+.card-image-frame {
+    background: linear-gradient(160deg, var(--base-color), var(--base-color2), var(--base-color2));
+    height: calc(calc(var(--card-height) * 0.75)  - calc(var(--card-padding) * 4) - 4px);
+    margin-right: var(--card-padding);
+}
+
+.card-image {
+    height: 100%;
+}
+
+.card-stats {
+    border-spacing: 0px;
+    font-size: 0.9em;
+    height: calc(calc(var(--card-height) * 0.75)  - calc(var(--card-padding) * 4) - 4px);
+    width: 100%;
+    background: var(--border-color);
+}
+
+.card-stats tr td {
+    background: linear-gradient(170deg, var(--base-color), var(--base-color2), var(--base-color2));
+    border: calc(var(--card-padding) - 1px) solid var(--border-color);
+    border-radius: 4px;
+    vertical-align: text-top;
+    font: 1em "Comic Neue";
+    font-weight: 700;
+    text-shadow: var(--card-padding) var(--card-padding) 5px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+    padding: 1px 3px 1px 3px;
+}
