@@ -3,7 +3,12 @@ import './index.css'
 
 function App() {
   return (
-    <Display />
+    <>
+      <h1>
+        TMMX Trade
+      </h1>
+      <Display />
+    </>
   );
 }
 

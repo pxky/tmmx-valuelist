@@ -1,0 +1,14 @@
+.tier-display {
+    margin-bottom: 2em;
+}
+
+.display-name {
+    display: flex;
+    justify-content: center;
+}
+
+.display-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}

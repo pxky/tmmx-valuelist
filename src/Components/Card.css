@@ -50,14 +50,18 @@
     height: calc(var(--card-height) * 0.25 - var(--card-padding));
     margin: 0px 0px var(--card-padding) 0px;
     background: linear-gradient(175deg, var(--base-color), var(--base-color2));
+}
+
+.title-text {
     font: 2em "Permanent Marker";
     text-shadow: var(--card-padding) var(--card-padding) 2px black;
+    margin: 0px 0px var(--card-padding) 0px;
 }
 
 .card-main {
     display: flex;
-    justify-content: start;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
 }
 
@@ -89,3 +93,9 @@
     text-shadow: var(--card-padding) var(--card-padding) 5px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
     padding: 1px 3px 1px 3px;
 }
+
+.text-color1 { color: rgb(255, 0, 0); }
+.text-color2 { color: rgb(255, 125, 0); }
+.text-color3 { color: rgb(255, 255, 0); }
+.text-color4 { color: rgb(125, 255, 0); }
+.text-color5 { color: rgb(0, 255, 255); }
