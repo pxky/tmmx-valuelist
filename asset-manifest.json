@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/tmmx.trade/static/css/main.580737ff.css",
-    "main.js": "/tmmx.trade/static/js/main.20247d3d.js",
-    "index.html": "/tmmx.trade/index.html",
-    "main.580737ff.css.map": "/tmmx.trade/static/css/main.580737ff.css.map",
-    "main.20247d3d.js.map": "/tmmx.trade/static/js/main.20247d3d.js.map"
+    "main.css": "./static/css/main.580737ff.css",
+    "main.js": "./static/js/main.fef44780.js",
+    "index.html": "./index.html",
+    "main.580737ff.css.map": "./static/css/main.580737ff.css.map",
+    "main.fef44780.js.map": "./static/js/main.fef44780.js.map"
   },
   "entrypoints": [
     "static/css/main.580737ff.css",
-    "static/js/main.20247d3d.js"
+    "static/js/main.fef44780.js"
   ]
 }
