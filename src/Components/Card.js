@@ -27,7 +27,7 @@ export default function Card({ props }) {
         </div>
         <div className="card-main">
             <div className="card-image-frame">
-              <img class="card-image" src={process.env.PUBLIC_URL + '/media/question-mark.png'}></img>
+              <img className="card-image" src={process.env.PUBLIC_URL + '/media/question-mark.png'} alt="item"></img>
             </div>
             <table className="card-stats">
             <tbody>
