@@ -1,12 +1,10 @@
-import Display from './Components/Display.js'
 import './index.css'
+import Display from './Components/Display.js'
+import Topbar from './Components/Topbar.js'
 
 function App() {
   return (
     <>
-      <h1>
-        TMMX Trade
-      </h1>
       <Display />
     </>
   );

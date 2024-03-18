@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Comic+Neue:wght@400;700');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Comic+Neue:wght@400;700&family=Bebas+Neue&family=Lilita+One&family=Permanent+Marker&display=swap');
 
 :root {
     --card-height: 180px;
@@ -27,12 +27,15 @@
     box-sizing: border-box;
     padding: calc(var(--card-padding) + 1px);
     overflow: hidden;
-    margin: var(--card-padding)
+    margin: var(--card-padding);
+    position: relative;
+    z-index: 3;
 }
 
 .card-title, .card-image-frame, .card-stats {
     box-sizing: border-box;
     border-radius: calc(var(--card-padding) * 2);
+    text-wrap: nowrap;;
 }
 
 .card-title, .card-image-frame {
@@ -53,9 +56,9 @@
 }
 
 .title-text {
-    font: 2em "Permanent Marker";
-    text-shadow: var(--card-padding) var(--card-padding) 2px black;
-    margin: 0px 0px var(--card-padding) 0px;
+    font: 2em "Bebas Neue", sans-serif;;
+    text-shadow: 0px var(--card-padding) 5px black;
+    margin: var(--card-padding) 0px 0px 0px;
 }
 
 .card-main {
@@ -68,6 +71,7 @@
 .card-image-frame {
     background: linear-gradient(160deg, var(--base-color), var(--base-color2), var(--base-color2));
     height: calc(calc(var(--card-height) * 0.75)  - calc(var(--card-padding) * 4) - 4px);
+    width: calc(calc(var(--card-height) * 0.75)  - calc(var(--card-padding) * 4) - 4px);
     margin-right: var(--card-padding);
 }
 
@@ -94,8 +98,10 @@
     padding: 1px 3px 1px 3px;
 }
 
+.text-color0 { color: rgb(150, 150, 150); }
 .text-color1 { color: rgb(255, 0, 0); }
 .text-color2 { color: rgb(255, 125, 0); }
 .text-color3 { color: rgb(255, 255, 0); }
 .text-color4 { color: rgb(125, 255, 0); }
 .text-color5 { color: rgb(0, 255, 255); }
+.text-color6 { color: rgb(255, 0, 200); }

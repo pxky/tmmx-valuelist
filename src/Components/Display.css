@@ -1,14 +1,44 @@
-.tier-display {
-    margin-bottom: 2em;
-}
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Comic+Neue:wght@400;700&family=Bebas+Neue&family=Lilita+One&family=Permanent+Marker&display=swap');
 
-.display-name {
+.title {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-.display-cards {
+.tier-title {
+    height: 120px;
+    font: 100px "Permanent Marker", sans-serif;
+
+    background-image: linear-gradient(#ffffff, #ffffff, #000000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+}
+
+.tier-title.collectors {background-image: linear-gradient(#e102ff, #27ccff);}
+.tier-title.mad {background-image: linear-gradient(#ff5a5a, #a32121);}
+.tier-title.ultimate {background-image: linear-gradient(#383838, #888888);}
+.tier-title.collectors {background-image: linear-gradient(#ce29e4, #4caadd);}
+.tier-title.mythical {background-image: linear-gradient(90deg, #ED4DA7, #ED4DA7, #524CDD, #41C8BE, #5FC44F, #5FC44F);}
+.tier-title.legendary {background-image: linear-gradient(#ffe818, #ce9419);}
+.tier-title.epic {background-image: linear-gradient(#c52b97, #600a92);}
+.tier-title.rare {background-image: linear-gradient(#25b68a, #21706a);}
+.tier-title.uncommon {background-image: linear-gradient(#71e067, #2c8b48);}
+
+.category-title {
+    height: 40px;
+    font: 30px "Lilita One", sans-serif;
+    text-decoration: underline;
+}
+
+.category-row {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: center;
+}
+
+.title-mad {
+    color: red;
 }

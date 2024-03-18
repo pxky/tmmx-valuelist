@@ -1,97 +1,146 @@
 import React from 'react'
+import { VariableSizeList as List } from 'react-window';
+import AutoSizer from "react-virtualized-auto-sizer";
 import Card from './Card'
 import './Display.css'
 
-const sample_data = [{
-  "name": "Candy Knife",
-  "value": 5000000,
-  "demand": 4,
-  "trend": 3,
-  "group": "Christmas 2021",
-  "tier": "Collectors",
-  "origin": "1199 R$"
-}, {
-  "name": "Candy Gun",
-  "value": 5000000,
-  "demand": 4,
-  "trend": 3,
-  "group": "Christmas 2021",
-  "tier": "Collectors",
-  "origin": "1199 R$"
-}, {
-  "name": "Candy Reindeer",
-  "value": 2500000,
-  "demand": 4,
-  "trend": 3,
-  "group": "Christmas 2021",
-  "tier": "Collectors",
-  "origin": "799 R$"
-}, {
-  "name": "Cosmic Knife",
-  "value": 400000,
-  "demand": 3,
-  "trend": 3,
-  "group": "New Year 2022",
-  "tier": "Collectors",
-  "origin": "1199 R$"
-}, {
-  "name": "Cosmic Gun",
-  "value": 400000,
-  "demand": 3,
-  "trend": 3,
-  "group": "New Year 2022",
-  "tier": "Collectors",
-  "origin": "1199 R$"
-}, {
-  "name": "Cosmic Cat",
-  "value": 160000,
-  "demand": 3,
-  "trend": 3,
-  "group": "New Year 2022",
-  "tier": "Collectors",
-  "origin": "799 R$"
-}, {
-  "name": "Katana",
-  "value": 100000,
-  "demand": 2,
-  "trend": 3,
-  "group": "Classic",
-  "tier": "Mythical",
-  "origin": "Wood, Metal, Planet crates"
-}, {
-  "name": "Galaxy Sniper",
-  "value": 100000,
-  "demand": 2,
-  "trend": 3,
-  "group": "Classic",
-  "tier": "Mythical",
-  "origin": "Wood, Metal, Planet crates"
-}]
+const dataUrl = "https://pastebin.com/raw/4BGbhSfV"
+const corsProxyUrl = "https://corsproxy.io/?"
+let data = []
+
+await fetch(corsProxyUrl + dataUrl, { method: "GET" })
+  .then(response => response.text())
+  .then(resData => data = JSON.parse(resData))
+  .catch(error => console.error('Error fetching data:', error));
+
+const tierDisplayOrders = {
+  "Collector's": 1,
+  "Mad": 2,
+  "Ultimate": 3,
+  "Mythical": 4,
+  "Legendary": 5,
+  "Epic": 6,
+  "Rare": 7,
+  "Uncommon": 8,
+  "Basic": 9,
+  "Special": 10,
+  "Default": 11,
+}
+
+const categoryDisplayOrders = {
+  "Christmas 2021": 1,
+  "New Year 2022": 2,
+  "Christmas 2022": 3,
+  "New Year 2023": 4,
+  "Valentines 2023": 5,
+  "Easter 2023": 6,
+  "Summer 2023": 7,
+  "Wand Series": 8,
+  "Halloween 2023": 9,
+  "Christmas 2023": 10,
+  "New Year 2024": 11,
+  "Star Series": 12,
+  "Valentines 2024": 13,
+  "Starter Pack": 14,
+}
 
 const SortDataByKey = (data, key) => {
-  return data.reduce((map, item) => {
-    const grouping = item[key];
-    map[grouping] = map[grouping] || []
-    map[grouping].push(item);
-    return map;
- }, {});
+  const groupedData = data.reduce((acc, item) => {
+     const grouping = item[key];
+     let category = item["GroupName"];
+     if (!acc[grouping]) {
+       acc[grouping] = {};
+     }
+     if (!acc[grouping][category]) {
+       acc[grouping][category] = [];
+     }
+     acc[grouping][category].push(item);
+     return acc;
+  }, {});
+ 
+  return Object.keys(groupedData).map(grouping => ({
+     title: grouping,
+     displayOrder: tierDisplayOrders[grouping],
+     categories: Object.keys(groupedData[grouping]).map(category => ({
+       title: category,
+       items: groupedData[grouping][category]
+     })).sort((a, b) => {
+       const orderA = categoryDisplayOrders[a.title] || 100;
+       const orderB = categoryDisplayOrders[b.title] || 100;
+       return orderA - orderB;
+     })
+  })).sort((a, b) => {
+     const orderA = tierDisplayOrders[a.title] || 100;
+     const orderB = tierDisplayOrders[b.title] || 100;
+     return orderA - orderB;
+  });
+ };
+
+const SortedData = SortDataByKey(data, "QualityName");
+
+const GetTierSize = index => {
+  const cardMargin = 3
+  const cardHeight = 180 + (cardMargin * 2)
+  const cardWidth = 300 + (cardMargin * 2)
+  const tierTitleHeight = 120
+  const categoryTitleHeight = 40
+ 
+  const tier = SortedData[index];
+  const cardsPerRow = Math.floor(window.innerWidth / cardWidth);
+  const numOfRows = tier.categories.reduce((count, category) => {
+      const rowsForCategory = Math.ceil(category.items.length / cardsPerRow);
+      return count + rowsForCategory;
+  }, 0);
+ 
+  const tierHeight = (numOfRows * cardHeight) + (tier.categories.length * categoryTitleHeight) + tierTitleHeight;
+  return tierHeight;
+ };
+
+const TierRow = ({ index, style }) => {
+  const tier = SortedData[index];
+  return (
+      <div style={style} className="tier" key={tier.title}>
+        <div className={`title tier-title ${tier.title.replace(/[^a-zA-Z]/g, '').toLowerCase()}`}>
+          {tier.title}
+        </div>
+        <div className="tier-row">
+          {tier.categories.map(category => (
+            <Category key={category.title} title={category.title} items={category.items} />
+          ))}
+        </div>
+      </div>
+  );
+};
+
+ const Category = ({ title, items }) => {
+  return (
+    <div className="category" key={title}>
+      <div className={`title category-title`} key={title}>
+        {title}
+      </div>
+      <div className="category-row">
+        {items.map(item => (
+          <Card key={item.Name + item.Type} props={item} order={item.LayoutOrder} />
+        ))}
+      </div>
+    </div>
+  )
 }
 
 export default function Display() {
-  const SortedData = SortDataByKey(sample_data, "group");
-
   return (
-    <div className="main-display">
-      {Object.keys(SortedData).map((groupingName) => (
-        <div key={groupingName} className="tier-display">
-          <h2 className="display-name">{groupingName}</h2>
-          <div className="display-cards">
-            {SortedData[groupingName].map((item) => (
-              <Card key={item.name} props={item} />
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  )
+    <AutoSizer>
+      {({ height, width }) => (
+        <List 
+          className="main-display"
+          height={height}
+          itemCount={SortedData.length}
+          itemSize={GetTierSize}
+          width={width}
+        >
+          {TierRow}
+        </List>
+      )}
+    </AutoSizer>
+ );
 }
