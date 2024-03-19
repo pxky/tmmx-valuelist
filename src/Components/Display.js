@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState, useRef  } from 'react'
 import { VariableSizeList as List } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
 import Card from './Card'
 import './Display.css'
 
+const corsProxyUrl = "https://api.allorigins.win/raw?url="
 const dataUrl = "https://pastebin.com/raw/4BGbhSfV"
-const corsProxyUrl = "https://corsproxy.io/?"
 let data = []
 
 await fetch(corsProxyUrl + dataUrl, { method: "GET" })
@@ -44,6 +44,7 @@ const categoryDisplayOrders = {
   "Starter Pack": 14,
 }
 
+// i am sorry
 const SortDataByKey = (data, key) => {
   const groupedData = data.reduce((acc, item) => {
      const grouping = item[key];
@@ -78,15 +79,13 @@ const SortDataByKey = (data, key) => {
 
 const SortedData = SortDataByKey(data, "QualityName");
 
-const GetTierSize = index => {
+const GetTierSize = (index, cardsPerRow) => {
   const cardMargin = 3
   const cardHeight = 180 + (cardMargin * 2)
-  const cardWidth = 300 + (cardMargin * 2)
   const tierTitleHeight = 120
   const categoryTitleHeight = 40
  
   const tier = SortedData[index];
-  const cardsPerRow = Math.floor(window.innerWidth / cardWidth);
   const numOfRows = tier.categories.reduce((count, category) => {
       const rowsForCategory = Math.ceil(category.items.length / cardsPerRow);
       return count + rowsForCategory;
@@ -94,21 +93,21 @@ const GetTierSize = index => {
  
   const tierHeight = (numOfRows * cardHeight) + (tier.categories.length * categoryTitleHeight) + tierTitleHeight;
   return tierHeight;
- };
+};
 
 const TierRow = ({ index, style }) => {
   const tier = SortedData[index];
   return (
-      <div style={style} className="tier" key={tier.title}>
-        <div className={`title tier-title ${tier.title.replace(/[^a-zA-Z]/g, '').toLowerCase()}`}>
-          {tier.title}
-        </div>
-        <div className="tier-row">
-          {tier.categories.map(category => (
-            <Category key={category.title} title={category.title} items={category.items} />
-          ))}
-        </div>
+    <div style={style} className="tier" key={tier.title}>
+      <div className={`title tier-title ${tier.title.replace(/[^a-zA-Z]/g, '').toLowerCase()}`}>
+        {tier.title}
       </div>
+      <div className="tier-row">
+        {tier.categories.map(category => (
+          <Category key={category.title} title={category.title} items={category.items} />
+        ))}
+      </div>
+    </div>
   );
 };
 
@@ -128,19 +127,31 @@ const TierRow = ({ index, style }) => {
 }
 
 export default function Display() {
+  const [cardsPerRow, setCardsPerRow] = useState(3)
+  const listRef = useRef(null);
+
+  const onResize = ({width}) => {
+    const newCardsPerRow = Math.floor(width / (300 + (3 * 2)));
+    setCardsPerRow(newCardsPerRow);
+    if (listRef.current) {
+      listRef.current.resetAfterIndex(0, true);
+    }
+  }
+
   return (
-    <AutoSizer>
+    <AutoSizer onResize={onResize}>
       {({ height, width }) => (
         <List 
+          ref={listRef}
           className="main-display"
           height={height}
           itemCount={SortedData.length}
-          itemSize={GetTierSize}
+          itemSize={index => GetTierSize(index, width, cardsPerRow)}
           width={width}
         >
           {TierRow}
         </List>
       )}
     </AutoSizer>
- );
+  );
 }
