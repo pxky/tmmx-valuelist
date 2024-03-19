@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef  } from 'react'
+import React, { useState, useRef  } from 'react'
 import { VariableSizeList as List } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
 import Card from './Card'
@@ -10,7 +10,10 @@ let data = []
 
 await fetch(corsProxyUrl + dataUrl, { method: "GET" })
   .then(response => response.text())
-  .then(resData => data = JSON.parse(resData))
+  .then(resData => {
+    data = JSON.parse(resData)
+    console.log("Data fetched successfully!")
+  })
   .catch(error => console.error('Error fetching data:', error));
 
 const tierDisplayOrders = {
@@ -146,7 +149,7 @@ export default function Display() {
           className="main-display"
           height={height}
           itemCount={SortedData.length}
-          itemSize={index => GetTierSize(index, width, cardsPerRow)}
+          itemSize={index => GetTierSize(index, cardsPerRow)}
           width={width}
         >
           {TierRow}
