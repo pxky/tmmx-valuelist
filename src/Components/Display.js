@@ -8,6 +8,13 @@ const corsProxyUrl = "https://api.allorigins.win/raw?url="
 const dataUrl = "https://pastebin.com/raw/4BGbhSfV"
 let data = []
 
+const cardMargin = 3
+const cardWidth = 300 + (cardMargin * 2)
+const cardHeight = 180 + (cardMargin * 2)
+const rowSidePadding = 20
+const tierTitleHeight = 120
+const categoryTitleHeight = 40
+
 await fetch(corsProxyUrl + dataUrl, { method: "GET" })
   .then(response => response.text())
   .then(resData => {
@@ -83,17 +90,11 @@ const SortDataByKey = (data, key) => {
 const SortedData = SortDataByKey(data, "QualityName");
 
 const GetTierSize = (index, cardsPerRow) => {
-  const cardMargin = 3
-  const cardHeight = 180 + (cardMargin * 2)
-  const tierTitleHeight = 120
-  const categoryTitleHeight = 40
- 
   const tier = SortedData[index];
   const numOfRows = tier.categories.reduce((count, category) => {
       const rowsForCategory = Math.ceil(category.items.length / cardsPerRow);
       return count + rowsForCategory;
   }, 0);
- 
   const tierHeight = (numOfRows * cardHeight) + (tier.categories.length * categoryTitleHeight) + tierTitleHeight;
   return tierHeight;
 };
@@ -114,7 +115,7 @@ const TierRow = ({ index, style }) => {
   );
 };
 
- const Category = ({ title, items }) => {
+const Category = ({ title, items }) => {
   return (
     <div className="category" key={title}>
       <div className={`title category-title`} key={title}>
@@ -134,7 +135,7 @@ export default function Display() {
   const listRef = useRef(null);
 
   const onResize = ({width}) => {
-    const newCardsPerRow = Math.floor(width / (300 + (3 * 2)));
+    const newCardsPerRow = Math.floor(width / (cardWidth + (cardMargin * 2)));
     setCardsPerRow(newCardsPerRow);
     if (listRef.current) {
       listRef.current.resetAfterIndex(0, true);
@@ -142,19 +143,21 @@ export default function Display() {
   }
 
   return (
-    <AutoSizer onResize={onResize}>
-      {({ height, width }) => (
-        <List 
-          ref={listRef}
-          className="main-display"
-          height={height}
-          itemCount={SortedData.length}
-          itemSize={index => GetTierSize(index, cardsPerRow)}
-          width={width}
-        >
-          {TierRow}
-        </List>
-      )}
-    </AutoSizer>
+    <div className="display">
+      <AutoSizer onResize={onResize}>
+        {({ height, width }) => (
+          <List 
+            ref={listRef}
+            className="main-display"
+            height={height}
+            itemCount={SortedData.length}
+            itemSize={index => GetTierSize(index, cardsPerRow)}
+            width={width}
+          >
+            {TierRow}
+          </List>
+        )}
+      </AutoSizer>
+    </div>
   );
 }

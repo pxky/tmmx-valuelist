@@ -11,13 +11,18 @@
 
 #root {
     height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 body {
     background: var(--background-color);
 }
 
-hr { width: 20em; }
+hr { 
+    width: 20em; 
+}
 
 a { 
     text-decoration: none;

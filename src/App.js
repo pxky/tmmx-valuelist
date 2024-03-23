@@ -5,6 +5,7 @@ import Topbar from './Components/Topbar.js'
 function App() {
   return (
     <>
+      <Topbar />
       <Display />
     </>
   );

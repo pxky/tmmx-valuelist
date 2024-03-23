@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Comic+Neue:wght@400;700&family=Bebas+Neue&family=Lilita+One&family=Permanent+Marker&display=swap');
 
+.display {
+    flex: '1 1 auto';
+    height: 100%;
+    margin-top: 60px;
+}
+
 .title {
     display: flex;
     justify-content: center;
