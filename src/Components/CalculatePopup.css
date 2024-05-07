@@ -1,9 +1,10 @@
 textarea {
-    background: silver;
+    background: rgb(50,50,50);
     width: 100%;
     height: 90%;
     margin: 8px;
     text-wrap: wrap;
+    border: none;
 }
 
 .calc-buttons {

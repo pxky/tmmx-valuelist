@@ -20,7 +20,7 @@ const Topbar = () => {
                     TMMX.POKY.CC
                 </h1>
                 <button className="calculate-button" onClick={toggleCalc}>
-                    Calculate Your Inventory!
+                    Calculate Inventory!
                 </button>
                 <CalculatePopup isOpen={isCalcOpen} toggle={toggleCalc}/>
             </div>

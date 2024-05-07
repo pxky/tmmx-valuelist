@@ -60,7 +60,7 @@ const processData = async () => {
       SettingData: settingData, 
     };
   } catch (error) {
-    console.error('Failed to load data:', error);
+    alert('Failed to load data:', error);
     throw error;
   }
 };
