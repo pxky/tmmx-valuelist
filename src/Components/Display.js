@@ -3,91 +3,21 @@ import { VariableSizeList as List } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
 import Card from './Card'
 import './Display.css'
+import { processData } from './Data.js'
 
-const corsProxyUrl = "https://api.allorigins.win/raw?url="
-const dataUrl = "https://pastebin.com/raw/4BGbhSfV"
-let data = []
+let SortedData = []
+processData().then((data) => {
+  SortedData = data.SortedData
+}).catch(error => {
+  console.error('Error processing data:', error);
+});
 
 const cardMargin = 3
 const cardWidth = 300 + (cardMargin * 2)
 const cardHeight = 180 + (cardMargin * 2)
-const rowSidePadding = 20
+//const rowSidePadding = 20
 const tierTitleHeight = 120
 const categoryTitleHeight = 40
-
-await fetch(corsProxyUrl + dataUrl, { method: "GET" })
-  .then(response => response.text())
-  .then(resData => {
-    data = JSON.parse(resData)
-    console.log("Data fetched successfully!")
-  })
-  .catch(error => console.error('Error fetching data:', error));
-
-const tierDisplayOrders = {
-  "Collector's": 1,
-  "Mad": 2,
-  "Ultimate": 3,
-  "Mythical": 4,
-  "Legendary": 5,
-  "Epic": 6,
-  "Rare": 7,
-  "Uncommon": 8,
-  "Basic": 9,
-  "Special": 10,
-  "Default": 11,
-}
-
-const categoryDisplayOrders = {
-  "Christmas 2021": 1,
-  "New Year 2022": 2,
-  "Christmas 2022": 3,
-  "New Year 2023": 4,
-  "Valentines 2023": 5,
-  "Easter 2023": 6,
-  "Summer 2023": 7,
-  "Wand Series": 8,
-  "Halloween 2023": 9,
-  "Christmas 2023": 10,
-  "New Year 2024": 11,
-  "Star Series": 12,
-  "Valentines 2024": 13,
-  "Starter Pack": 14,
-}
-
-// i am sorry
-const SortDataByKey = (data, key) => {
-  const groupedData = data.reduce((acc, item) => {
-     const grouping = item[key];
-     let category = item["GroupName"];
-     if (!acc[grouping]) {
-       acc[grouping] = {};
-     }
-     if (!acc[grouping][category]) {
-       acc[grouping][category] = [];
-     }
-     acc[grouping][category].push(item);
-     return acc;
-  }, {});
- 
-  return Object.keys(groupedData).map(grouping => ({
-     title: grouping,
-     displayOrder: tierDisplayOrders[grouping],
-     categories: Object.keys(groupedData[grouping]).map(category => ({
-       title: category,
-       items: groupedData[grouping][category]
-     })).sort((a, b) => {
-       const orderA = categoryDisplayOrders[a.title] || 100;
-       const orderB = categoryDisplayOrders[b.title] || 100;
-       return orderA - orderB;
-     })
-  })).sort((a, b) => {
-     const orderA = tierDisplayOrders[a.title] || 100;
-     const orderB = tierDisplayOrders[b.title] || 100;
-     return orderA - orderB;
-  });
- };
-
-const SortedData = SortDataByKey(data, "QualityName");
 
 const GetTierSize = (index, cardsPerRow) => {
   const tier = SortedData[index];

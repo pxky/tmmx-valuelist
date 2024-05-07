@@ -1,0 +1,33 @@
+textarea {
+    background: silver;
+    width: 100%;
+    height: 90%;
+    margin: 8px;
+    text-wrap: wrap;
+}
+
+.calc-buttons {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.calc-button {
+    height: 100%;
+    width: 25%;
+    border-radius: 8px;
+    margin: 4px;
+}
+
+#calculate {
+    background: linear-gradient(rgb(50, 100, 225), rgb(50, 100, 225), rgb(50, 100, 175))
+}
+
+#copy {
+    background: linear-gradient(rgb(50, 225, 175), rgb(50, 225, 175), rgb(50, 150, 150))
+}
+
+#paste {
+    background: linear-gradient(rgb(175, 50, 225), rgb(175, 50, 225), rgb(125, 50, 225))
+}
