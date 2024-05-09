@@ -1,25 +1,13 @@
 import React, { useState } from 'react';
 import './Card.css'
+import { processData } from './Data.js'
 
-const DemandKeys = {
-  0: "???",
-  1: "NONE 🚫",
-  2: "Bad. 🤢",
-  3: "Ok. 🤷‍♀️",
-  4: "Good! 👍",
-  5: "Amazing! 🌟",
-  6: "DIVINE! 🌌"
-};
-
-const TrendKeys = {
-  0: "???",
-  1: "DYING. 💀",
-  2: "Lowering. 😭",
-  3: "Stable. 😐",
-  4: "Raising! 📈",
-  5: "Skyrocketing!",
-  6: "DIVINE! 🚀"
-};
+let SettingData = []
+processData().then((data) => {
+  SettingData = data.SettingData
+}).catch(error => {
+  console.error('Error processing data:', error);
+});
 
 function formatValue(value) {
   if (value === 0) {
@@ -78,11 +66,11 @@ export default function Card({ props, order }) {
             </tr>
             <tr className="card-demand">
               <td>Demand:</td>
-              <td className={`card-demand-text text-color${props.Demand}`}>{DemandKeys[props.Demand]}</td>
+              <td className={`card-demand-text text-color${props.Demand}`}>{SettingData.DemandKeys[props.Demand]}</td>
             </tr>
             <tr className="card-trend">
               <td>Trend:</td>
-              <td className={`card-trend-text text-color${props.Trend}`}>{TrendKeys[props.Trend]}</td>
+              <td className={`card-trend-text text-color${props.Trend}`}>{SettingData.TrendKeys[props.Trend]}</td>
             </tr>
             <tr className="card-birthday">
               <td>Birthday:</td>

@@ -50,21 +50,21 @@ const CalculatePopup = ({ isOpen, toggle }) => {
                             const item = ValueData.find(v => v.Name === json[i].Name)
                             if (item) {
                                 if (item.IsTradeable === false) {continue}
-                                total_value += item.Value * json[i].Stack;
+                                const total_item_value = item.Value * json[i].Stack
+                                total_value += total_item_value
                                 total_item_count += json[i].Stack
                                 let string = `${json[i].Stack}x ${item.DisplayName}`
-                                console.log(string.length)
                                 if (string.length < 20) {
                                     for (let i = 1; i < (20 - string.length) * 69; i++) {
                                         string += " "
                                     }
                                 }
-                                items_string += `${string} + ${formatNumber(total_value)}\n`
+                                items_string += `${string} + ${formatNumber(total_item_value)}\n`
                                 continue
                             }
-                            total_value = formatNumber(total_value)
-                            total_item_count = formatNumber(total_item_count)
                         }
+                        total_value = formatNumber(total_value)
+                        total_item_count = formatNumber(total_item_count)
                         document.getElementById("inv-dump").value = `Total Value: ${total_value}\nTotal Items: ${total_item_count}\n\n===== raw data: =====\n${items_string}\n\nlike and subscribe`
                     } catch (e) {
                         document.getElementById("inv-dump").value = `ERROR:\n${e}`
